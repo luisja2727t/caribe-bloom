@@ -28,7 +28,7 @@ export default function Satelite() {
         <div className="scard"><div className="scard-label">Rad. Promedio</div><div className="scard-val c-amber">{promRad} W/m²</div></div>
         <div className="scard"><div className="scard-label">Humedad SMAP</div><div className="scard-val c-blue">{promHum}%</div></div>
         <div className="scard"><div className="scard-label">Temp. Superficie</div><div className="scard-val c-red">{promTmp}°C</div></div>
-        <div className="scard"><div className="scard-label">Fincas monitoreadas</div><div className="scard-val c-green">{datos.length}</div></div>
+        <div className="scard"><div className="scard-label">Fincas monitoreadas</div><div className="scard-val c-green">{new Set(datos.map(d => d.id_finca)).size}</div></div>
       </div>
 
       <div className="card">

@@ -18,7 +18,6 @@ router.post("/login", async (req, res) => {
 
     const usuario = rows[0];
 
-    // Por ahora comparación directa (el dump tiene passwords en texto plano)
     if (password !== usuario.password)
       return res.status(401).json({ error: "Credenciales inválidas" });
 
