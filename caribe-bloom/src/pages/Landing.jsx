@@ -167,7 +167,67 @@ export default function Landing({ onLoginClick }) {
           ))}
         </div>
       </div>
+            {/* MISIÓN, VISIÓN Y VALORES */}
+      <div style={{ padding: "80px 64px", background: "#fff" }}>
+        <div style={{ textAlign: "center", marginBottom: 60 }}>
+          <div style={{ fontSize: 11, color: "#2d9e4f", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1.2px", marginBottom: 10 }}>
+            Quiénes somos
+          </div>
+          <h2 style={{ fontSize: 34, fontWeight: 800, color: "#0a3d1f", letterSpacing: "-0.8px", margin: 0 }}>
+            Nuestra Esencia
+          </h2>
+        </div>
 
+        {/* Misión y Visión */}
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, maxWidth: 900, margin: "0 auto 60px" }}>
+          <div style={{ background: "#f4f6f5", borderRadius: 16, padding: "36px 32px" }}>
+            <div style={{ fontSize: 28, marginBottom: 12 }}>🎯</div>
+            <div style={{ fontSize: 11, color: "#2d9e4f", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 }}>Nuestra Misión</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#0a3d1f", marginBottom: 12, fontStyle: "italic" }}>
+              "Empoderar a los agricultores mediante tecnología accesible para transformar el campo."
+            </div>
+            <p style={{ fontSize: 13, color: "#5a7a66", lineHeight: 1.75, margin: 0 }}>
+              En Bloom Caribe, democratizamos el acceso a la agricultura de precisión. Proveemos un sistema inteligente y accesible de monitoreo agrícola que fusiona inteligencia artificial, visión computacional y datos satelitales. Nuestra misión es entregar a los agricultores diagnósticos precisos, alertas tempranas y recomendaciones agronómicas directamente en sus manos.
+            </p>
+          </div>
+
+          <div style={{ background: "#0a3d1f", borderRadius: 16, padding: "36px 32px" }}>
+            <div style={{ fontSize: 28, marginBottom: 12 }}>🌍</div>
+            <div style={{ fontSize: 11, color: "#3db866", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1px", marginBottom: 8 }}>Nuestra Visión</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: "#fff", marginBottom: 12, fontStyle: "italic" }}>
+              "Ser el referente global en la evolución hacia una agricultura inteligente, predictiva y sostenible."
+            </div>
+            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.65)", lineHeight: 1.75, margin: 0 }}>
+              Aspiramos a consolidarnos como la plataforma líder en el monitoreo agrícola automatizado a nivel nacional e internacional, evolucionando hacia la automatización total con drones, maquinaria inteligente y modelos predictivos avanzados.
+            </p>
+          </div>
+        </div>
+
+        {/* Valores */}
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <h3 style={{ fontSize: 22, fontWeight: 800, color: "#0a3d1f", textAlign: "center", marginBottom: 32 }}>
+            Nuestros Valores Fundamentales
+          </h3>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(2,1fr)", gap: 16 }}>
+            {[
+              { icon: "💡", title: "Innovación con Propósito", desc: "Utilizamos tecnología de vanguardia (IA, Machine Learning y análisis satelital) no solo por innovar, sino para resolver problemas reales y urgentes del sector agrícola." },
+              { icon: "🌿", title: "Sostenibilidad Socio-Ambiental", desc: "Promovemos prácticas agrícolas que cuiden nuestro planeta, ayudando a optimizar el uso del agua y los recursos con impacto positivo en el medio ambiente y las comunidades rurales." },
+              { icon: "📱", title: "Accesibilidad e Inclusión", desc: "Diseñamos soluciones intuitivas al alcance de agricultores en regiones con limitaciones tecnológicas, transformando su teléfono móvil en su mejor herramienta de trabajo." },
+              { icon: "📡", title: "Precisión y Confiabilidad", desc: "Nuestro compromiso es entregar datos exactos y en tiempo real. Una decisión basada en información precisa a tiempo marca la diferencia entre una pérdida y una cosecha exitosa." },
+              { icon: "🌴", title: "Compromiso Regional", desc: "Nacimos para impulsar el potencial del Caribe colombiano, entendiendo sus necesidades únicas para luego escalar nuestras soluciones al resto del mundo.", style: { gridColumn: "1 / -1" } },
+            ].map(({ icon, title, desc, style: extraStyle }) => (
+              <div key={title} style={{
+                background: "#f4f6f5", borderRadius: 12, padding: "24px 22px",
+                borderLeft: "4px solid #3db866", ...extraStyle,
+              }}>
+                <div style={{ fontSize: 24, marginBottom: 8 }}>{icon}</div>
+                <div style={{ fontSize: 14, fontWeight: 700, color: "#0a3d1f", marginBottom: 6 }}>{title}</div>
+                <div style={{ fontSize: 12, color: "#7a9e87", lineHeight: 1.65 }}>{desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
       {/* CTA FINAL */}
       <div style={{
         padding: "72px 64px", textAlign: "center",
