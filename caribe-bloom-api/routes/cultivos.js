@@ -15,13 +15,22 @@ function auth(req, res, next) {
 
 router.get("/", auth, async (req, res) => {
   try {
-    const [rows] = await pool.query(
-      `SELECT c.*, f.nombre_finca
-       FROM cultivos c
-       JOIN fincas f ON c.id_finca = f.id_finca
-       WHERE f.id_usuario = ?`,
-      [req.user.id]
-    );
+    let query, params;
+
+    if (req.user.rol === "Administrador") {
+      query = `SELECT c.*, f.nombre_finca
+               FROM cultivos c
+               JOIN fincas f ON c.id_finca = f.id_finca`;
+      params = [];
+    } else {
+      query = `SELECT c.*, f.nombre_finca
+               FROM cultivos c
+               JOIN fincas f ON c.id_finca = f.id_finca
+               WHERE f.id_usuario = ?`;
+      params = [req.user.id];
+    }
+
+    const [rows] = await pool.query(query, params);
     res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });

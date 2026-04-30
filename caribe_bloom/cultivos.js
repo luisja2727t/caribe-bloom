@@ -1,5 +1,4 @@
-const express = require("express");
-const router  = require("express").Router();
+const router = require("express").Router();
 const { pool } = require("../db");
 const jwt = require("jsonwebtoken");
 
@@ -19,16 +18,14 @@ router.get("/", auth, async (req, res) => {
     let query, params;
 
     if (req.user.rol === "Administrador") {
-      // Ve TODAS las fincas
-      query = `SELECT f.*, u.nombre AS nombre_usuario 
-               FROM fincas f
-               JOIN usuarios u ON f.id_usuario = u.id_usuario`;
+      query = `SELECT c.*, f.nombre_finca
+               FROM cultivos c
+               JOIN fincas f ON c.id_finca = f.id_finca`;
       params = [];
     } else {
-      // Solo ve su propia finca
-      query = `SELECT f.*, u.nombre AS nombre_usuario 
-               FROM fincas f
-               JOIN usuarios u ON f.id_usuario = u.id_usuario
+      query = `SELECT c.*, f.nombre_finca
+               FROM cultivos c
+               JOIN fincas f ON c.id_finca = f.id_finca
                WHERE f.id_usuario = ?`;
       params = [req.user.id];
     }
