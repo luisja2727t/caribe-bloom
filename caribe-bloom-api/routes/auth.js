@@ -1,7 +1,7 @@
 const express = require("express");
 const router  = express.Router();
 const jwt     = require("jsonwebtoken");
-const { pool } = require("../db");
+const pool    = require("../db");
 
 // POST /api/auth/login
 router.post("/login", async (req, res) => {
@@ -10,13 +10,14 @@ router.post("/login", async (req, res) => {
     return res.status(400).json({ error: "Correo y contraseña requeridos" });
 
   try {
-    const [rows] = await pool.query(
-      "SELECT * FROM usuarios WHERE correo = ?", [correo]
+    const result = await pool.query(
+      "SELECT * FROM usuarios WHERE correo = $1", [correo]
     );
-    if (rows.length === 0)
+
+    if (result.rows.length === 0)
       return res.status(401).json({ error: "Credenciales inválidas" });
 
-    const usuario = rows[0];
+    const usuario = result.rows[0];
 
     if (password !== usuario.password)
       return res.status(401).json({ error: "Credenciales inválidas" });

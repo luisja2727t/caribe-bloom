@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
-const { connectDB } = require("./db");
+const pool = require("./db");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,8 +22,15 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok", app: "Caribe Bloom API" });
 });
 
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(`🚀 API corriendo en http://localhost:${PORT}`);
+// Verificar conexión a PostgreSQL y arrancar
+pool.query("SELECT 1")
+  .then(() => {
+    console.log("✅ Conectado a PostgreSQL");
+    app.listen(PORT, () => {
+      console.log(`🚀 API corriendo en http://localhost:${PORT}`);
+    });
+  })
+  .catch(err => {
+    console.error("❌ Error conectando a PostgreSQL:", err.message);
+    process.exit(1);
   });
-});

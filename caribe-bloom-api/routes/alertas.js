@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { pool } = require("../db");
+const pool = require("../db");
 const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
@@ -18,28 +18,32 @@ router.get("/", auth, async (req, res) => {
     let query, params;
 
     if (req.user.rol === "Administrador") {
-      query = `SELECT a.*
-               FROM alertas a
-               JOIN analisis_ia ai ON a.id_analisis = ai.id_analisis
-               JOIN capturas ca    ON ai.id_captura  = ca.id_captura
-               JOIN cultivos c     ON ca.id_cultivo  = c.id_cultivo
-               JOIN fincas f       ON c.id_finca     = f.id_finca
-               ORDER BY a.fecha_generacion DESC`;
+      query = `
+        SELECT a.*
+        FROM alertas a
+        JOIN analisis_ia ai ON a.id_analisis = ai.id_analisis
+        JOIN capturas ca    ON ai.id_captura  = ca.id_captura
+        JOIN cultivos c     ON ca.id_cultivo  = c.id_cultivo
+        JOIN fincas f       ON c.id_finca     = f.id_finca
+        ORDER BY a.fecha DESC
+      `;
       params = [];
     } else {
-      query = `SELECT a.*
-               FROM alertas a
-               JOIN analisis_ia ai ON a.id_analisis = ai.id_analisis
-               JOIN capturas ca    ON ai.id_captura  = ca.id_captura
-               JOIN cultivos c     ON ca.id_cultivo  = c.id_cultivo
-               JOIN fincas f       ON c.id_finca     = f.id_finca
-               WHERE f.id_usuario = ?
-               ORDER BY a.fecha_generacion DESC`;
+      query = `
+        SELECT a.*
+        FROM alertas a
+        JOIN analisis_ia ai ON a.id_analisis = ai.id_analisis
+        JOIN capturas ca    ON ai.id_captura  = ca.id_captura
+        JOIN cultivos c     ON ca.id_cultivo  = c.id_cultivo
+        JOIN fincas f       ON c.id_finca     = f.id_finca
+        WHERE f.id_usuario = $1
+        ORDER BY a.fecha DESC
+      `;
       params = [req.user.id];
     }
 
-    const [rows] = await pool.query(query, params);
-    res.json(rows);
+    const result = await pool.query(query, params);
+    res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

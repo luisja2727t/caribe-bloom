@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { pool } = require("../db");
+const pool = require("../db");
 const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
@@ -18,20 +18,33 @@ router.get("/", auth, async (req, res) => {
     let query, params;
 
     if (req.user.rol === "Administrador") {
-      query = `SELECT c.*, f.nombre_finca
-               FROM cultivos c
-               JOIN fincas f ON c.id_finca = f.id_finca`;
+      query = `
+        SELECT c.*, f.nombre AS nombre_finca,
+               ST_AsGeoJSON(c.ubicacion) AS ubicacion_geojson
+        FROM cultivos c
+        JOIN fincas f ON c.id_finca = f.id_finca
+      `;
       params = [];
     } else {
-      query = `SELECT c.*, f.nombre_finca
-               FROM cultivos c
-               JOIN fincas f ON c.id_finca = f.id_finca
-               WHERE f.id_usuario = ?`;
+      query = `
+        SELECT c.*, f.nombre AS nombre_finca,
+               ST_AsGeoJSON(c.ubicacion) AS ubicacion_geojson
+        FROM cultivos c
+        JOIN fincas f ON c.id_finca = f.id_finca
+        WHERE f.id_usuario = $1
+      `;
       params = [req.user.id];
     }
 
-    const [rows] = await pool.query(query, params);
-    res.json(rows);
+    const result = await pool.query(query, params);
+
+    const cultivosFormateados = result.rows.map(cultivo => {
+      const geojson = cultivo.ubicacion_geojson ? JSON.parse(cultivo.ubicacion_geojson) : null;
+      const { ubicacion_geojson, ...resto } = cultivo;
+      return { ...resto, ubicacion_geojson: geojson };
+    });
+
+    res.json(cultivosFormateados);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

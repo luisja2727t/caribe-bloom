@@ -1,40 +1,55 @@
 import { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
- 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon-2x.png",
-  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-});
- 
+import { GoogleMap, useJsApiLoader, Polygon } from "@react-google-maps/api";
+
+const LIBRARIES = [];
 const ACOLOR = { red:"var(--red)", amber:"var(--amber)", blue:"var(--blue)" };
 const TCOLOR = { "Fitosanitario":"red","Riego Crítico":"red","Nutricional":"amber","Mantenimiento":"amber","Clima":"blue" };
 const ESTRES = { Bajo:"green", Moderado:"amber", Alto:"red", Crítico:"red" };
- 
+
 function MapaReal({ fincas }) {
-  const coords = fincas.map(f => {
-    const [lat, lng] = (f.ubicacion_gps || "").split(",").map(Number);
-    return { ...f, lat, lng };
-  }).filter(f => !isNaN(f.lat));
- 
-  const centro = coords.length > 0 ? [coords[0].lat, coords[0].lng] : [10.96, -74.78];
- 
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_KEY,
+    libraries: LIBRARIES,
+  });
+
+  const parsearZona = (geojson) => {
+    if (!geojson || !geojson.coordinates) return [];
+    return geojson.coordinates[0].map(([lng, lat]) => ({ lat, lng }));
+  };
+
   return (
     <div className="map-ph">
-      <MapContainer center={centro} zoom={11} style={{ height: 220, width: "100%" }} scrollWheelZoom={false} zoomControl={false}>
-        <TileLayer
-          attribution='&copy; Esri'
-          url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-        />
-        {coords.map(f => (
-          <Marker key={f.id_finca} position={[f.lat, f.lng]}>
-            <Popup><strong>{f.nombre_finca}</strong></Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+      {isLoaded ? (
+        <GoogleMap
+          mapContainerStyle={{ height: 220, width: "100%" }}
+          center={{ lat: 10.96, lng: -74.78 }}
+          zoom={11}
+          mapTypeId="satellite"
+          options={{ 
+            mapTypeControl: false, 
+            streetViewControl: false, 
+            fullscreenControl: false, 
+            zoomControl: false,
+            mapTypeId: "satellite"
+          }}
+        >
+          {fincas.map(f => {
+            const coords = parsearZona(f.ubicacion_geojson);
+            if (coords.length === 0) return null;
+            return (
+              <Polygon
+                key={f.id_finca}
+                paths={coords}
+                options={{ fillColor:"#3db866", fillOpacity:0.3, strokeColor:"#3db866", strokeWeight:2 }}
+              />
+            );
+          })}
+        </GoogleMap>
+      ) : (
+        <div style={{ height:220, display:"flex", alignItems:"center", justifyContent:"center" }}>
+          Cargando mapa...
+        </div>
+      )}
       <div className="map-footer">
         {[["#3db866","Óptimo"],["#e8971f","Estrés Hídrico"],["#dc3d3d","Enfermedad"]].map(([c,l]) => (
           <div key={l} className="map-li">
@@ -45,19 +60,19 @@ function MapaReal({ fincas }) {
     </div>
   );
 }
- 
+
 export default function Dashboard() {
   const [fincas,   setFincas]   = useState([]);
   const [alertas,  setAlertas]  = useState([]);
   const [analisis, setAnalisis] = useState([]);
   const [loading,  setLoading]  = useState(true);
- 
+
   useEffect(() => {
     const token = localStorage.getItem("cb_token");
     const h = { Authorization: `Bearer ${token}` };
     Promise.all([
-      fetch("/api/fincas",      { headers: h }).then(r => r.json()),
-      fetch("/api/alertas",     { headers: h }).then(r => r.json()),
+      fetch("/api/fincas",   { headers: h }).then(r => r.json()),
+      fetch("/api/alertas",  { headers: h }).then(r => r.json()),
       fetch("/api/analisis", { headers: h }).then(r => r.json()),
     ]).then(([f, al, an]) => {
       setFincas(Array.isArray(f)   ? f  : []);
@@ -66,27 +81,27 @@ export default function Dashboard() {
       setLoading(false);
     }).catch(() => setLoading(false));
   }, []);
- 
+
   if (loading) return <div className="loading">Cargando...</div>;
- 
+
   const saludables = analisis.filter(a => a.enfermedad_detectada === "Ninguna" && a.nivel_estres_hidrico === "Bajo").length;
   const hidrico    = analisis.filter(a => a.nivel_estres_hidrico === "Alto" || a.nivel_estres_hidrico === "Crítico").length;
   const enfermos   = analisis.filter(a => a.enfermedad_detectada !== "Ninguna").length;
- 
+
   return (
     <div>
       <div className="ph">
         <div className="ph-title">Vista General</div>
         <div className="ph-sub">Fincas activas · Atlántico, Colombia · Actualizado hoy</div>
       </div>
- 
+
       <div className="g4" style={{ marginBottom:18 }}>
         <div className="scard"><div className="scard-label">Parcelas Totales</div><div className="scard-val">{fincas.length}</div><div className="scard-sub">Fincas registradas</div></div>
         <div className="scard"><div className="scard-label">Saludables</div><div className="scard-val c-green">{saludables}</div><div className="scard-sub">Sin alertas activas</div></div>
         <div className="scard"><div className="scard-label">Estrés Hídrico</div><div className="scard-val c-amber">{hidrico}</div><div className="scard-sub">Requieren riego</div></div>
         <div className="scard"><div className="scard-label">Con Enfermedad</div><div className="scard-val c-red">{enfermos}</div><div className="scard-sub">Atención urgente</div></div>
       </div>
- 
+
       <div className="g2" style={{ marginBottom:18 }}>
         <div>
           <div className="sh"><div className="sh-title">Mapa de Parcelas</div><div className="sh-link">Ver satélite →</div></div>
@@ -109,7 +124,7 @@ export default function Dashboard() {
           })}
         </div>
       </div>
- 
+
       <div className="card">
         <div className="card-label">Últimos Análisis IA</div>
         {analisis.slice(0,5).map(a => (
