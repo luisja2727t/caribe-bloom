@@ -1,7 +1,7 @@
-const express  = require("express");
-const router   = express.Router();
-const { pool } = require("../db");
-const jwt      = require("jsonwebtoken");
+const express = require("express");
+const router  = express.Router();
+const pool    = require("../db");
+const jwt     = require("jsonwebtoken");
 
 function verificarToken(req, res, next) {
   const auth = req.headers.authorization;
@@ -19,22 +19,28 @@ router.get("/", verificarToken, async (req, res) => {
     let query, params;
 
     if (req.usuario.rol === "Administrador") {
-      query = `SELECT ds.*, f.nombre_finca, f.ubicacion_gps
-               FROM datos_satelitales ds
-               JOIN fincas f ON ds.id_finca = f.id_finca
-               ORDER BY ds.fecha_dato DESC`;
+      query = `
+        SELECT ds.*, f.nombre AS nombre_finca,
+               ST_AsGeoJSON(f.zona) AS ubicacion_geojson
+        FROM datos_satelitales ds
+        JOIN fincas f ON ds.id_finca = f.id_finca
+        ORDER BY ds.fecha_dato DESC
+      `;
       params = [];
     } else {
-      query = `SELECT ds.*, f.nombre_finca, f.ubicacion_gps
-               FROM datos_satelitales ds
-               JOIN fincas f ON ds.id_finca = f.id_finca
-               WHERE f.id_usuario = ?
-               ORDER BY ds.fecha_dato DESC`;
+      query = `
+        SELECT ds.*, f.nombre AS nombre_finca,
+               ST_AsGeoJSON(f.zona) AS ubicacion_geojson
+        FROM datos_satelitales ds
+        JOIN fincas f ON ds.id_finca = f.id_finca
+        WHERE f.id_usuario = $1
+        ORDER BY ds.fecha_dato DESC
+      `;
       params = [req.usuario.id];
     }
 
-    const [rows] = await pool.query(query, params);
-    res.json(rows);
+    const result = await pool.query(query, params);
+    res.json(result.rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

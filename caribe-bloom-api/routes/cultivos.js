@@ -20,17 +20,47 @@ router.get("/", auth, async (req, res) => {
     if (req.user.rol === "Administrador") {
       query = `
         SELECT c.*, f.nombre AS nombre_finca,
-               ST_AsGeoJSON(c.ubicacion) AS ubicacion_geojson
+               ST_AsGeoJSON(c.ubicacion) AS ubicacion_geojson,
+               cap.lectura_humedad,
+               cap.lectura_temperatura,
+               ds.radiacion_solar
         FROM cultivos c
         JOIN fincas f ON c.id_finca = f.id_finca
+        LEFT JOIN LATERAL (
+          SELECT lectura_humedad, lectura_temperatura
+          FROM capturas
+          WHERE id_cultivo = c.id_cultivo
+          ORDER BY fecha DESC LIMIT 1
+        ) cap ON true
+        LEFT JOIN LATERAL (
+          SELECT radiacion_solar
+          FROM datos_satelitales
+          WHERE id_finca = c.id_finca
+          ORDER BY fecha_dato DESC LIMIT 1
+        ) ds ON true
       `;
       params = [];
     } else {
       query = `
         SELECT c.*, f.nombre AS nombre_finca,
-               ST_AsGeoJSON(c.ubicacion) AS ubicacion_geojson
+               ST_AsGeoJSON(c.ubicacion) AS ubicacion_geojson,
+               cap.lectura_humedad,
+               cap.lectura_temperatura,
+               ds.radiacion_solar
         FROM cultivos c
         JOIN fincas f ON c.id_finca = f.id_finca
+        LEFT JOIN LATERAL (
+          SELECT lectura_humedad, lectura_temperatura
+          FROM capturas
+          WHERE id_cultivo = c.id_cultivo
+          ORDER BY fecha DESC LIMIT 1
+        ) cap ON true
+        LEFT JOIN LATERAL (
+          SELECT radiacion_solar
+          FROM datos_satelitales
+          WHERE id_finca = c.id_finca
+          ORDER BY fecha_dato DESC LIMIT 1
+        ) ds ON true
         WHERE f.id_usuario = $1
       `;
       params = [req.user.id];
