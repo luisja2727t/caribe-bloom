@@ -277,7 +277,10 @@ export default function Parcelas() {
                         <span style={{ fontSize:13, fontWeight:500 }}>{cultivo.tipo_planta}</span>
                       </div>
                       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8 }}>
-                        {[["🌡","--°C","Temperatura"],["💧","--%","Humedad"],["☀","-- W/m²","Radiación"]].map(([icon,val,label])=>(
+                        {[["🌡", cultivo.lectura_temperatura ? `${parseFloat(cultivo.lectura_temperatura).toFixed(1)}°C` : "--°C", "Temperatura"],
+                          ["💧", cultivo.lectura_humedad ? `${parseFloat(cultivo.lectura_humedad).toFixed(1)}%` : "--%", "Humedad"],
+                          ["☀", cultivo.radiacion_solar ? `${parseFloat(cultivo.radiacion_solar).toFixed(0)} W/m²` : "-- W/m²", "Radiación"]
+                            ].map(([icon,val,label])=>(
                           <div key={label} style={{ background:"var(--surface2)", borderRadius:8, padding:"8px 10px", textAlign:"center" }}>
                             <div style={{ fontSize:16 }}>{icon}</div>
                             <div style={{ fontSize:13, fontWeight:600, color:"var(--text)" }}>{val}</div>

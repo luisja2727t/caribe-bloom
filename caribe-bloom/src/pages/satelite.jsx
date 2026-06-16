@@ -8,14 +8,18 @@ export default function Satelite() {
     const token = localStorage.getItem("cb_token");
     fetch("/api/satelital", { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
-      .then(data => { setDatos(data); setLoading(false); });
+      .then(data => {
+        setDatos(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   if (loading) return <div className="loading">Cargando...</div>;
 
-  const promRad = (datos.reduce((s,d) => s+parseFloat(d.radiacion_solar),  0) / datos.length).toFixed(0);
-  const promHum = (datos.reduce((s,d) => s+parseFloat(d.humedad_suelo_smap),0) / datos.length).toFixed(1);
-  const promTmp = (datos.reduce((s,d) => s+parseFloat(d.temperatura_superficie),0) / datos.length).toFixed(1);
+  const promRad = datos.length > 0 ? (datos.reduce((s,d) => s+parseFloat(d.radiacion_solar||0), 0) / datos.length).toFixed(0) : "--";
+  const promHum = datos.length > 0 ? (datos.reduce((s,d) => s+parseFloat(d.humedad_suelo_smap||0), 0) / datos.length).toFixed(1) : "--";
+  const promTmp = datos.length > 0 ? (datos.reduce((s,d) => s+parseFloat(d.temperatura_superficie||0), 0) / datos.length).toFixed(1) : "--";
 
   return (
     <div>
@@ -33,26 +37,32 @@ export default function Satelite() {
 
       <div className="card">
         <div className="card-label">Índices por finca</div>
-        <table>
-          <thead><tr>
-            {["Finca","Radiación Solar","Humedad SMAP","Temp. Superficie","Diagnóstico"].map(h => <th key={h}>{h}</th>)}
-          </tr></thead>
-          <tbody>
-            {datos.map(d => {
-              const hum  = parseFloat(d.humedad_suelo_smap);
-              const diag = hum < 25 ? ["Estrés Hídrico","red"] : hum > 65 ? ["Exceso Humedad","amber"] : ["Normal","green"];
-              return (
-                <tr key={d.id_satelite}>
-                  <td style={{ fontWeight:500, color:"var(--text)" }}>{d.nombre_finca}</td>
-                  <td>{parseFloat(d.radiacion_solar).toFixed(1)} W/m²</td>
-                  <td>{hum.toFixed(1)}%</td>
-                  <td>{parseFloat(d.temperatura_superficie).toFixed(1)}°C</td>
-                  <td><span className={`badge badge-${diag[1]}`}>{diag[0]}</span></td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        {datos.length === 0 ? (
+          <div style={{ padding:"30px", textAlign:"center", color:"var(--text3)", fontSize:13 }}>
+            No hay datos satelitales registrados aún.
+          </div>
+        ) : (
+          <table>
+            <thead><tr>
+              {["Finca","Radiación Solar","Humedad SMAP","Temp. Superficie","Diagnóstico"].map(h => <th key={h}>{h}</th>)}
+            </tr></thead>
+            <tbody>
+              {datos.map(d => {
+                const hum  = parseFloat(d.humedad_suelo_smap);
+                const diag = hum < 25 ? ["Estrés Hídrico","red"] : hum > 65 ? ["Exceso Humedad","amber"] : ["Normal","green"];
+                return (
+                  <tr key={d.id_satelite}>
+                    <td style={{ fontWeight:500, color:"var(--text)" }}>{d.nombre_finca}</td>
+                    <td>{parseFloat(d.radiacion_solar||0).toFixed(1)} W/m²</td>
+                    <td>{hum.toFixed(1)}%</td>
+                    <td>{parseFloat(d.temperatura_superficie||0).toFixed(1)}°C</td>
+                    <td><span className={`badge badge-${diag[1]}`}>{diag[0]}</span></td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        )}
       </div>
     </div>
   );

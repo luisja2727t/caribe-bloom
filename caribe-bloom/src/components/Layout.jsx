@@ -1,12 +1,23 @@
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 
 const NAV = [
-  { to: "/",             label: "Dashboard",         icon: "⊞" },
-  { to: "/parcelas",     label: "Mis Parcelas",       icon: "◈" },
-  { to: "/satelite",     label: "Análisis Satelital", icon: "◎" },
-  { to: "/historial",    label: "Historial",          icon: "⊙" },
-  { to: "/alertas",      label: "Alertas",            icon: "△" },
+  { to: "/",            label: "Dashboard",         icon: "⊞" },
+  { to: "/parcelas",    label: "Mis Parcelas",       icon: "◈" },
+  { to: "/satelite",    label: "Análisis Satelital", icon: "◎" },
+  { to: "/historial",   label: "Historial",          icon: "⊙" },
+  { to: "/alertas",     label: "Alertas",            icon: "△" },
+  
 ];
+
+const navStyle = ({ isActive }) => ({
+  display: "flex", alignItems: "center", gap: 10,
+  padding: "10px 12px", borderRadius: 8, marginBottom: 3,
+  textDecoration: "none", fontSize: 13, transition: "all 0.15s",
+  background: isActive ? "rgba(61,184,102,0.2)" : "transparent",
+  color: isActive ? "#5fd080" : "rgba(255,255,255,0.55)",
+  fontWeight: isActive ? 600 : 400,
+  borderLeft: isActive ? "3px solid #3db866" : "3px solid transparent",
+});
 
 export default function Layout({ user, onLogout }) {
   const navigate = useNavigate();
@@ -35,33 +46,18 @@ export default function Layout({ user, onLogout }) {
         {/* Nav */}
         <nav style={{ padding: "8px 10px", flex: 1 }}>
           {NAV.map(({ to, label, icon }) => (
-            <NavLink key={to} to={to} end={to === "/"}
-              style={({ isActive }) => ({
-                display: "flex", alignItems: "center", gap: 10,
-                padding: "10px 12px", borderRadius: 8, marginBottom: 3,
-                textDecoration: "none", fontSize: 13, transition: "all 0.15s",
-                background: isActive ? "rgba(61,184,102,0.2)" : "transparent",
-                color: isActive ? "#5fd080" : "rgba(255,255,255,0.55)",
-                fontWeight: isActive ? 600 : 400,
-                borderLeft: isActive ? "3px solid #3db866" : "3px solid transparent",
-              })}>
+            <NavLink key={to} to={to} end={to === "/"} style={navStyle}>
               <span style={{ fontSize: 15 }}>{icon}</span>
               {label}
             </NavLink>
           ))}
         </nav>
-
         {/* Configuracion */}
         <div style={{ padding: "0 10px 8px" }}>
-          <div onClick={() => navigate("/configuracion")} style={{
-            display: "flex", alignItems: "center", gap: 10,
-            padding: "10px 12px", borderRadius: 8, cursor: "pointer",
-            color: "rgba(255,255,255,0.55)", fontSize: 13, transition: "all 0.15s"
-          }}>
+          <NavLink to="/configuracion" style={navStyle}>
             <span style={{ fontSize: 15 }}>⚙</span> Configuración
-          </div>
+          </NavLink>
         </div>
-
         {/* User footer */}
         <div style={{
           padding: "14px 16px", borderTop: "1px solid rgba(255,255,255,0.08)",
@@ -103,7 +99,7 @@ export default function Layout({ user, onLogout }) {
               width: 34, height: 34, background: "#f4f6f5",
               border: "1px solid var(--border)", borderRadius: 8,
               display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 15, cursor: "pointer", position: "relative"
+              fontSize: 15, cursor: "pointer"
             }} onClick={() => navigate("/alertas")}>
               🔔
             </div>

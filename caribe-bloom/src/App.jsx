@@ -1,13 +1,15 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
-import Layout    from "./components/Layout";
-import Landing   from "./pages/Landing";
-import Login     from "./pages/login";
-import Dashboard from "./pages/dashboard";
-import Parcelas  from "./pages/parcelas";
-import Alertas   from "./pages/alertas";
-import Historial from "./pages/historial";
-import Satelite  from "./pages/satelite";
+import Layout        from "./components/Layout";
+import Landing       from "./pages/Landing";
+import Login         from "./pages/login";
+import Registro      from "./pages/registro";
+import Dashboard     from "./pages/dashboard";
+import Parcelas      from "./pages/parcelas";
+import Alertas       from "./pages/alertas";
+import Historial     from "./pages/historial";
+import Satelite      from "./pages/satelite";
+import Configuracion from "./pages/configuracion";
 
 function App() {
   const [user, setUser] = useState(() => {
@@ -19,34 +21,33 @@ function App() {
     }
     return null;
   });
-  const [loading,   setLoading]   = useState(false);
-  const [showLogin, setShowLogin] = useState(false);
+
+  const [vista, setVista] = useState("landing"); // "landing" | "login" | "registro"
 
   const handleLogin = (usuario) => {
     localStorage.setItem("cb_user", JSON.stringify(usuario));
     setUser(usuario);
-    setShowLogin(false);
+    setVista("landing");
   };
 
   const handleLogout = () => {
     localStorage.removeItem("cb_token");
     localStorage.removeItem("cb_user");
     setUser(null);
-    setShowLogin(false);
+    setVista("landing");
   };
-
-  if (loading) return <div className="loading">Cargando...</div>;
 
   if (user) {
     return (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout user={user} onLogout={handleLogout} />}>
-            <Route index             element={<Dashboard />} />
-            <Route path="parcelas"  element={<Parcelas />} />
-            <Route path="alertas"   element={<Alertas />} />
-            <Route path="historial" element={<Historial />} />
-            <Route path="satelite"  element={<Satelite />} />
+            <Route index                element={<Dashboard />} />
+            <Route path="parcelas"      element={<Parcelas />} />
+            <Route path="alertas"       element={<Alertas />} />
+            <Route path="historial"     element={<Historial />} />
+            <Route path="satelite"      element={<Satelite />} />
+            <Route path="configuracion" element={<Configuracion />} />
           </Route>
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
@@ -54,11 +55,31 @@ function App() {
     );
   }
 
-  if (showLogin) {
-    return <Login onLogin={handleLogin} onBack={() => setShowLogin(false)} />;
+  if (vista === "login") {
+    return (
+      <Login
+        onLogin={handleLogin}
+        onBack={() => setVista("landing")}
+        onRegistroClick={() => setVista("registro")}
+      />
+    );
   }
 
-  return <Landing onLoginClick={() => setShowLogin(true)} />;
+  if (vista === "registro") {
+    return (
+      <Registro
+        onRegistro={handleLogin}
+        onLoginClick={() => setVista("login")}
+      />
+    );
+  }
+
+  return (
+    <Landing
+      onLoginClick={() => setVista("login")}
+      onRegistroClick={() => setVista("registro")}
+    />
+  );
 }
 
 export default App;

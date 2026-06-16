@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Login({ onLogin, onBack }) {
+export default function Login({ onLogin, onBack, onRegistroClick }) {
   const [correo,   setCorreo]   = useState("");
   const [password, setPassword] = useState("");
   const [error,    setError]    = useState("");
@@ -100,8 +100,19 @@ export default function Login({ onLogin, onBack }) {
           </button>
         </form>
 
+        {/* Enlace a registro */}
+        <div style={{ textAlign: "center", marginTop: 18, fontSize: 13, color: "#7a9e87" }}>
+          ¿No tienes cuenta?{" "}
+          <span
+            onClick={onRegistroClick}
+            style={{ color: "#2d9e4f", fontWeight: 700, cursor: "pointer" }}
+          >
+            Regístrate aquí
+          </span>
+        </div>
+
         <div style={{
-          marginTop: 18, padding: "12px 14px",
+          marginTop: 14, padding: "12px 14px",
           background: "#f0f4f2", borderRadius: 8,
           fontSize: 11, color: "#7a9e87", lineHeight: 1.8,
           border: "1px solid rgba(0,0,0,0.06)",
