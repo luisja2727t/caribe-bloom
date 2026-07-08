@@ -6,7 +6,8 @@ const pool = require("./db");
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cors({ origin: "http://localhost:5173" }));
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:5173").split(",");
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 // Rutas
