@@ -1,6 +1,6 @@
 import heroImg from "../assets/hero.png";
 
-export default function Landing({ onLoginClick }) {
+export default function Landing({ onLoginClick, onRegistroClick }) {
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -52,7 +52,7 @@ export default function Landing({ onLoginClick }) {
             Monitorea tus fincas en tiempo real con análisis satelital, detección de enfermedades y alertas automáticas para tus cultivos.
           </p>
           <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 52 }}>
-            <button onClick={onLoginClick} style={{ padding: "14px 32px", background: "#3db866", border: "none", borderRadius: 10, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 20px rgba(61,184,102,0.45)" }}>Comenzar ahora →</button>
+            <button onClick={onRegistroClick} style={{ padding: "14px 32px", background: "#3db866", border: "none", borderRadius: 10, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 20px rgba(61,184,102,0.45)" }}>Comenzar ahora →</button>
             <button onClick={() => scrollTo("funciones")} style={{ padding: "14px 28px", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 10, color: "rgba(255,255,255,0.85)", fontSize: 14, fontWeight: 500, cursor: "pointer" }}>Ver demo</button>
           </div>
           <div style={{ display: "flex", gap: 32, paddingTop: 28, borderTop: "1px solid rgba(255,255,255,0.12)" }}>
@@ -257,7 +257,7 @@ export default function Landing({ onLoginClick }) {
       <div style={{ padding: "72px 64px", textAlign: "center", background: "linear-gradient(135deg, #0a3d1f, #1e7a40)" }}>
         <h2 style={{ fontSize: 34, fontWeight: 800, color: "#fff", letterSpacing: "-0.8px", margin: "0 0 14px" }}>¿Listo para transformar tu finca?</h2>
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 15, marginBottom: 32 }}>Únete a los agricultores del Atlántico que ya monitorizan con Caribe Bloom.</p>
-        <button onClick={onLoginClick} style={{ padding: "15px 40px", background: "#3db866", border: "none", borderRadius: 10, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 20px rgba(61,184,102,0.4)" }}>
+        <button onClick={onRegistroClick} style={{ padding: "15px 40px", background: "#3db866", border: "none", borderRadius: 10, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 20px rgba(61,184,102,0.4)" }}>
           Acceder a la plataforma →
         </button>
       </div>

@@ -8,15 +8,22 @@ export default function Alertas() {
   const [alertas, setAlertas] = useState([]);
   const [filtro,  setFiltro]  = useState("Todas");
   const [loading, setLoading] = useState(true);
+  const [error,   setError]   = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("cb_token");
     fetch("/api/alertas", { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.json())
-      .then(data => { setAlertas(data); setLoading(false); });
+      .then(async r => {
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || "Error al cargar las alertas");
+        return data;
+      })
+      .then(data => { setAlertas(Array.isArray(data) ? data : []); setLoading(false); })
+      .catch(err => { setError(err.message); setLoading(false); });
   }, []);
 
   if (loading) return <div className="loading">Cargando...</div>;
+  if (error)   return <div className="loading">Error: {error}</div>;
 
   const lista = filtro === "Todas" ? alertas : alertas.filter(a => a.tipo === filtro);
   const criticas = alertas.filter(a => TCOLOR[a.tipo] === "red").length;

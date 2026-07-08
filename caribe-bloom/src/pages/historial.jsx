@@ -5,15 +5,22 @@ const ESTRES = { Bajo:"green", Moderado:"amber", Alto:"red", Crítico:"red" };
 export default function Historial() {
   const [analisis, setAnalisis] = useState([]);
   const [loading,  setLoading]  = useState(true);
+  const [error,    setError]    = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("cb_token");
     fetch("/api/analisis", { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.json())
-      .then(data => { setAnalisis(data); setLoading(false); });
+      .then(async r => {
+        const data = await r.json();
+        if (!r.ok) throw new Error(data.error || "Error al cargar el historial");
+        return data;
+      })
+      .then(data => { setAnalisis(Array.isArray(data) ? data : []); setLoading(false); })
+      .catch(err => { setError(err.message); setLoading(false); });
   }, []);
 
   if (loading) return <div className="loading">Cargando...</div>;
+  if (error)   return <div className="loading">Error: {error}</div>;
 
   return (
     <div>
