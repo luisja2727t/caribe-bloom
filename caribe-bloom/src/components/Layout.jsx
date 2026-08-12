@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Outlet, NavLink, useNavigate } from "react-router-dom";
 
 const NAV = [
@@ -21,10 +22,12 @@ const navStyle = ({ isActive }) => ({
 
 export default function Layout({ user, onLogout }) {
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="app">
-      <aside style={{
+      <div className={`sidebar-overlay${menuOpen ? " open" : ""}`} onClick={() => setMenuOpen(false)} />
+      <aside className={`sidebar${menuOpen ? " open" : ""}`} style={{
         width: 220, background: "#0f2d1a",
         borderRight: "none", display: "flex",
         flexDirection: "column", flexShrink: 0
@@ -89,7 +92,10 @@ export default function Layout({ user, onLogout }) {
           display: "flex", alignItems: "center", padding: "0 24px", gap: 14,
           boxShadow: "0 1px 4px rgba(0,0,0,0.06)"
         }}>
-          <input placeholder="Buscar parcelas, cultivos..." style={{
+          <button className="menu-toggle" onClick={() => setMenuOpen(true)} style={{
+            background: "none", border: "none", fontSize: 20, cursor: "pointer", color: "var(--text2)", padding: 4
+          }}>☰</button>
+          <input className="header-search" placeholder="Buscar parcelas, cultivos..." style={{
             flex: 1, maxWidth: 280, background: "#f4f6f5",
             border: "1px solid var(--border2)", borderRadius: 20,
             padding: "7px 16px", fontSize: 12, color: "var(--text2)", outline: "none"

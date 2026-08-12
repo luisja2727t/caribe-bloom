@@ -110,16 +110,6 @@ export default function Login({ onLogin, onBack, onRegistroClick }) {
             Regístrate aquí
           </span>
         </div>
-
-        <div style={{
-          marginTop: 14, padding: "12px 14px",
-          background: "#f0f4f2", borderRadius: 8,
-          fontSize: 11, color: "#7a9e87", lineHeight: 1.8,
-          border: "1px solid rgba(0,0,0,0.06)",
-        }}>
-          <strong style={{ color: "#3d6b4f" }}>Demo:</strong><br />
-          carlos@finca.com / hash_secreto_123
-        </div>
       </div>
     </div>
   );

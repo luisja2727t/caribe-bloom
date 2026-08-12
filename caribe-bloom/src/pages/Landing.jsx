@@ -9,7 +9,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
   return (
     <div style={{ fontFamily: "'Segoe UI', system-ui, sans-serif", minHeight: "100vh", background: "#fff", overflowX: "hidden" }}>
 
-      <nav style={{
+      <nav className="landing-nav" style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
         display: "flex", alignItems: "center", justifyContent: "space-between",
         padding: "20px 48px",
@@ -24,7 +24,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
             <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", textTransform: "uppercase", letterSpacing: "0.8px" }}>AgriMonitor</div>
           </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+        <div className="landing-nav-links" style={{ alignItems: "center", gap: 28 }}>
           {[{ label: "Inicio", id: "inicio" }, { label: "Funciones", id: "funciones" }, { label: "Nosotros", id: "nosotros" }, { label: "Contacto", id: "contacto" }].map(({ label, id }) => (
             <span key={id} onClick={() => scrollTo(id)} style={{ color: "rgba(255,255,255,0.75)", fontSize: 13, fontWeight: 500, cursor: "pointer" }}
               onMouseEnter={e => e.target.style.color = "#3db866"}
@@ -38,24 +38,24 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
       </nav>
 
       <div id="inicio" style={{ position: "relative", height: "100vh", overflow: "hidden", background: "linear-gradient(135deg, #0a3d1f 0%, #1e7a40 45%, #145a2e 75%, #0f2d1a 100%)", display: "flex", alignItems: "center" }}>
-        <img src={heroImg} alt="finca" style={{ position: "absolute", right: 0, top: 0, height: "100%", width: "55%", objectFit: "cover", objectPosition: "center", opacity: 0.35, maskImage: "linear-gradient(to right, transparent 0%, black 40%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 40%)" }} />
+        <img src={heroImg} alt="finca" className="landing-hero-img" style={{ position: "absolute", right: 0, top: 0, height: "100%", width: "55%", objectFit: "cover", objectPosition: "center", opacity: 0.35, maskImage: "linear-gradient(to right, transparent 0%, black 40%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 40%)" }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, #0a3d1f 35%, transparent 70%)" }} />
-        <div style={{ position: "relative", zIndex: 2, padding: "0 64px", maxWidth: 660 }}>
+        <div className="landing-hero" style={{ position: "relative", zIndex: 2, padding: "0 64px", maxWidth: 660 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 7, background: "rgba(61,184,102,0.2)", border: "1px solid rgba(61,184,102,0.4)", borderRadius: 20, padding: "5px 14px", marginBottom: 26 }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#3db866" }} />
             <span style={{ color: "#a8e6bc", fontSize: 11, fontWeight: 700, letterSpacing: "0.8px", textTransform: "uppercase" }}>Atlántico, Colombia</span>
           </div>
-          <h1 style={{ fontSize: 56, fontWeight: 800, color: "#fff", lineHeight: 1.05, letterSpacing: "-1.5px", margin: "0 0 20px" }}>
+          <h1 className="landing-h1" style={{ fontWeight: 800, color: "#fff", lineHeight: 1.05, letterSpacing: "-1.5px", margin: "0 0 20px" }}>
             Cultiva <span style={{ color: "#3db866" }}>inteligente</span> en el Caribe
           </h1>
           <p style={{ fontSize: 17, color: "rgba(255,255,255,0.7)", lineHeight: 1.65, margin: "0 0 36px", maxWidth: 480 }}>
             Monitorea tus fincas en tiempo real con análisis satelital, detección de enfermedades y alertas automáticas para tus cultivos.
           </p>
-          <div style={{ display: "flex", gap: 12, alignItems: "center", marginBottom: 52 }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", marginBottom: 52 }}>
             <button onClick={onRegistroClick} style={{ padding: "14px 32px", background: "#3db866", border: "none", borderRadius: 10, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 20px rgba(61,184,102,0.45)" }}>Comenzar ahora →</button>
             <button onClick={() => scrollTo("funciones")} style={{ padding: "14px 28px", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 10, color: "rgba(255,255,255,0.85)", fontSize: 14, fontWeight: 500, cursor: "pointer" }}>Ver demo</button>
           </div>
-          <div style={{ display: "flex", gap: 32, paddingTop: 28, borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+          <div className="landing-stats" style={{ display: "flex", gap: 32, paddingTop: 28, borderTop: "1px solid rgba(255,255,255,0.12)" }}>
             {[["150+", "Fincas activas"], ["98%", "Precisión IA"], ["24/7", "Monitoreo"]].map(([val, label]) => (
               <div key={label}>
                 <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.5px" }}>{val}</div>
@@ -66,13 +66,13 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
         </div>
       </div>
 
-      <div id="funciones" style={{ padding: "100px 64px", background: "#f4f6f5" }}>
+      <div id="funciones" className="landing-section" style={{ background: "#f4f6f5" }}>
         <div style={{ textAlign: "center", marginBottom: 70 }}>
           <div style={{ fontSize: 11, color: "#2d9e4f", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1.2px", marginBottom: 10 }}>Funcionalidades</div>
           <h2 style={{ fontSize: 38, fontWeight: 800, color: "#0a3d1f", letterSpacing: "-0.8px", margin: "0 0 16px" }}>Todo lo que necesitas para tu finca</h2>
           <p style={{ fontSize: 15, color: "#5a7a66", maxWidth: 560, margin: "0 auto" }}>Caribe Bloom integra tecnología satelital, inteligencia artificial y monitoreo en tiempo real en una sola plataforma.</p>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
+        <div className="landing-grid-3" style={{ gap: 24, maxWidth: 1100, margin: "0 auto" }}>
           {[
             { icon: "🛰️", title: "Análisis Satelital", desc: "Accede a imágenes NDVI actualizadas de tus cultivos desde el espacio. Detecta estrés hídrico y cambios de vegetación antes de que sean visibles.", puntos: ["Índice NDVI en tiempo real", "Detección de estrés hídrico", "Cobertura completa de parcelas"] },
             { icon: "🤖", title: "IA Agrícola", desc: "Nuestro motor de inteligencia artificial analiza imágenes de tus cultivos para detectar enfermedades, plagas y deficiencias nutricionales.", puntos: ["Detección de enfermedades", "Análisis de deficiencias", "Confianza del modelo > 90%"] },
@@ -93,7 +93,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
             </div>
           ))}
         </div>
-        <div style={{ marginTop: 80, background: "linear-gradient(135deg, #0a3d1f, #1e7a40)", borderRadius: 20, padding: "48px 56px", display: "flex", alignItems: "center", justifyContent: "space-between", maxWidth: 1100, margin: "80px auto 0" }}>
+        <div className="landing-cta-row" style={{ background: "linear-gradient(135deg, #0a3d1f, #1e7a40)", borderRadius: 20, padding: "48px 56px", maxWidth: 1100, margin: "80px auto 0" }}>
           <div>
             <div style={{ fontSize: 24, fontWeight: 800, color: "#fff", marginBottom: 8 }}>Tecnología que entiende tu campo</div>
             <div style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", maxWidth: 480 }}>Más de 150 fincas en el Atlántico ya usan Caribe Bloom para tomar mejores decisiones agrícolas cada día.</div>
@@ -105,7 +105,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
       </div>
 
       {/* ── NOSOTROS ── */}
-      <div id="nosotros" style={{ padding: "100px 64px", background: "#fff", position: "relative", overflow: "hidden" }}>
+      <div id="nosotros" className="landing-section" style={{ background: "#fff", position: "relative", overflow: "hidden" }}>
 
         {/* Decoración de fondo sutil */}
         <div style={{ position: "absolute", top: -80, right: -80, width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle, rgba(61,184,102,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
@@ -119,7 +119,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
         </div>
 
         {/* Misión y Visión */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, maxWidth: 1000, margin: "0 auto 64px", position: "relative", zIndex: 1 }}>
+        <div className="landing-grid-2" style={{ gap: 28, maxWidth: 1000, margin: "0 auto 64px", position: "relative", zIndex: 1 }}>
 
           {/* Misión */}
           <div style={{ background: "#f4f6f5", borderRadius: 20, padding: "44px 40px", position: "relative", overflow: "hidden", border: "1px solid rgba(61,184,102,0.15)" }}>
@@ -154,7 +154,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
             <h3 style={{ fontSize: 26, fontWeight: 800, color: "#0a3d1f", margin: "0 0 10px" }}>Nuestros Valores Fundamentales</h3>
             <div style={{ width: 48, height: 3, background: "linear-gradient(90deg, #3db866, #2d9e4f)", borderRadius: 2, margin: "0 auto" }} />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 20, marginBottom: 20 }}>
+          <div className="landing-grid-3" style={{ gap: 20, marginBottom: 20 }}>
             {[
               {
                 title: "Innovación con Propósito",
@@ -192,7 +192,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
             ))}
           </div>
           {/* Fila inferior: 2 valores centrados */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+          <div className="landing-grid-2" style={{ gap: 20 }}>
             {[
               {
                 title: "Precisión y Confiabilidad",
@@ -224,7 +224,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
 
       </div>
 
-      <div id="contacto" style={{ padding: "100px 64px", background: "#f4f6f5" }}>
+      <div id="contacto" className="landing-section" style={{ background: "#f4f6f5" }}>
         <div style={{ textAlign: "center", marginBottom: 52 }}>
           <div style={{ fontSize: 11, color: "#2d9e4f", fontWeight: 700, textTransform: "uppercase", letterSpacing: "1.2px", marginBottom: 10 }}>Contacto</div>
           <h2 style={{ fontSize: 34, fontWeight: 800, color: "#0a3d1f", letterSpacing: "-0.8px", margin: "0 0 14px" }}>¿Tienes alguna pregunta?</h2>
@@ -243,7 +243,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
           </div>
           <button style={{ width: "100%", padding: "13px", background: "#3db866", border: "none", borderRadius: 8, color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer" }}>Enviar mensaje →</button>
         </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: 48, marginTop: 52 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 48, marginTop: 52 }}>
           {[{ icon: "📧", label: "Email", value: "contacto@caribebloom.com" }, { icon: "📞", label: "Teléfono", value: "+57 300 000 0000" }, { icon: "📍", label: "Ubicación", value: "Barranquilla, Atlántico" }].map(({ icon, label, value }) => (
             <div key={label} style={{ textAlign: "center" }}>
               <div style={{ fontSize: 24, marginBottom: 6 }}>{icon}</div>
@@ -254,7 +254,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
         </div>
       </div>
 
-      <div style={{ padding: "72px 64px", textAlign: "center", background: "linear-gradient(135deg, #0a3d1f, #1e7a40)" }}>
+      <div className="landing-section" style={{ textAlign: "center", background: "linear-gradient(135deg, #0a3d1f, #1e7a40)" }}>
         <h2 style={{ fontSize: 34, fontWeight: 800, color: "#fff", letterSpacing: "-0.8px", margin: "0 0 14px" }}>¿Listo para transformar tu finca?</h2>
         <p style={{ color: "rgba(255,255,255,0.6)", fontSize: 15, marginBottom: 32 }}>Únete a los agricultores del Atlántico que ya monitorizan con Caribe Bloom.</p>
         <button onClick={onRegistroClick} style={{ padding: "15px 40px", background: "#3db866", border: "none", borderRadius: 10, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 20px rgba(61,184,102,0.4)" }}>
