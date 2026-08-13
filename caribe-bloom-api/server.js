@@ -17,6 +17,7 @@ app.use("/api/cultivos",  require("./routes/cultivos"));
 app.use("/api/alertas",   require("./routes/alertas"));
 app.use("/api/analisis",  require("./routes/analisis"));
 app.use("/api/satelital", require("./routes/satelital"));
+app.use("/api/contacto",  require("./routes/contacto"));
 
 // Health check
 app.get("/api/health", (req, res) => {

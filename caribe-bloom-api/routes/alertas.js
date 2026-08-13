@@ -19,7 +19,7 @@ router.get("/", auth, async (req, res) => {
 
     if (req.user.rol === "Administrador") {
       query = `
-        SELECT a.*
+        SELECT a.*, f.nombre AS nombre_finca
         FROM alertas a
         JOIN analisis_ia ai ON a.id_analisis = ai.id_analisis
         JOIN capturas ca    ON ai.id_captura  = ca.id_captura
@@ -30,7 +30,7 @@ router.get("/", auth, async (req, res) => {
       params = [];
     } else {
       query = `
-        SELECT a.*
+        SELECT a.*, f.nombre AS nombre_finca
         FROM alertas a
         JOIN analisis_ia ai ON a.id_analisis = ai.id_analisis
         JOIN capturas ca    ON ai.id_captura  = ca.id_captura

@@ -1,6 +1,25 @@
 import { useState, useEffect, useCallback } from "react";
 import { GoogleMap, useJsApiLoader, Polygon } from "@react-google-maps/api";
 
+const IconPencil = ({ size = 14, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+);
+const IconCheck = ({ size = 14, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+);
+const IconSprout = ({ size = 14, color = "#2f9e5c" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 20h10"/><path d="M12 20v-9"/><path d="M12 11c-3 0-6-1.5-6-6 4 0 6 1.5 6 4"/><path d="M12 11c3 0 6-2 6-7-4 0-6 2-6 5"/></svg>
+);
+const IconThermometer = ({ size = 16, color = "#4c6b5a" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
+);
+const IconDroplet = ({ size = 16, color = "#4c6b5a" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.4-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7Z"/></svg>
+);
+const IconSun = ({ size = 16, color = "#4c6b5a" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+);
+
 const LIBRARIES = [];
 
 const ESTADO_COLOR = {
@@ -22,6 +41,7 @@ export default function Parcelas() {
   const [nombreFinca,   setNombreFinca]   = useState("");
   const [guardando,     setGuardando]     = useState(false);
   const [coordsGuardar, setCoordsGuardar] = useState(null);
+  const [modalError,    setModalError]    = useState("");
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_KEY,
@@ -55,6 +75,7 @@ export default function Parcelas() {
     setPuntosNuevos([]);
     setDibujando(false);
     setModal(true);
+    setModalError("");
   };
 
   const cancelarDibujo = () => {
@@ -80,12 +101,13 @@ export default function Parcelas() {
         setModal(false);
         setNombreFinca("");
         setCoordsGuardar(null);
+        setModalError("");
         cargarDatos(); // recargar fincas
       } else {
-        alert("Error: " + data.error);
+        setModalError(data.error || "No se pudo guardar la finca");
       }
     } catch (err) {
-      alert("Error al guardar: " + err.message);
+      setModalError("No se pudo guardar la finca. Intenta de nuevo.");
     } finally {
       setGuardando(false);
     }
@@ -131,10 +153,11 @@ export default function Parcelas() {
               onKeyDown={e => e.key === "Enter" && guardarFinca()}
               autoFocus
             />
+            {modalError && <div className="err" style={{ marginBottom:16 }}>{modalError}</div>}
             <div style={{ display:"flex", gap:10, justifyContent:"flex-end" }}>
               <button
                 className="btn"
-                onClick={() => { setModal(false); setNombreFinca(""); setCoordsGuardar(null); }}
+                onClick={() => { setModal(false); setNombreFinca(""); setCoordsGuardar(null); setModalError(""); }}
                 disabled={guardando}
               >
                 Cancelar
@@ -173,8 +196,8 @@ export default function Parcelas() {
         <div>
           {dibujando && (
             <div style={{ background:"#fef3c7", border:"1px solid #f59e0b", borderRadius:8, padding:"10px 16px", marginBottom:12, display:"flex", alignItems:"center", justifyContent:"space-between" }}>
-              <span style={{ fontSize:13, color:"#92400e" }}>
-                ✏️ Haz clic en el mapa para marcar los puntos del perímetro. Puntos marcados: <strong>{puntosNuevos.length}</strong>
+              <span style={{ fontSize:13, color:"#92400e", display:"flex", alignItems:"center", gap:7 }}>
+                <IconPencil size={14} color="#92400e" /> Haz clic en el mapa para marcar los puntos del perímetro. Puntos marcados: <strong>{puntosNuevos.length}</strong>
               </span>
               <div style={{ display:"flex", gap:8 }}>
                 <button
@@ -183,7 +206,7 @@ export default function Parcelas() {
                   onClick={cerrarPoligono}
                   disabled={puntosNuevos.length < 3}
                 >
-                  ✓ Cerrar Polígono
+                  <span style={{ display:"inline-flex", alignItems:"center", gap:5 }}><IconCheck size={13} color="#fff" /> Cerrar Polígono</span>
                 </button>
                 <button
                   className="btn"
@@ -273,16 +296,16 @@ export default function Parcelas() {
                   {cultivo && (
                     <>
                       <div style={{ display:"flex", alignItems:"center", gap:6, marginBottom:8 }}>
-                        <span style={{ fontSize:14 }}>🌱</span>
+                        <IconSprout size={14} />
                         <span style={{ fontSize:13, fontWeight:500 }}>{cultivo.tipo_planta}</span>
                       </div>
                       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr 1fr", gap:8 }}>
-                        {[["🌡", cultivo.lectura_temperatura ? `${parseFloat(cultivo.lectura_temperatura).toFixed(1)}°C` : "--°C", "Temperatura"],
-                          ["💧", cultivo.lectura_humedad ? `${parseFloat(cultivo.lectura_humedad).toFixed(1)}%` : "--%", "Humedad"],
-                          ["☀", cultivo.radiacion_solar ? `${parseFloat(cultivo.radiacion_solar).toFixed(0)} W/m²` : "-- W/m²", "Radiación"]
+                        {[[<IconThermometer />, cultivo.lectura_temperatura ? `${parseFloat(cultivo.lectura_temperatura).toFixed(1)}°C` : "--°C", "Temperatura"],
+                          [<IconDroplet />, cultivo.lectura_humedad ? `${parseFloat(cultivo.lectura_humedad).toFixed(1)}%` : "--%", "Humedad"],
+                          [<IconSun />, cultivo.radiacion_solar ? `${parseFloat(cultivo.radiacion_solar).toFixed(0)} W/m²` : "-- W/m²", "Radiación"]
                             ].map(([icon,val,label])=>(
                           <div key={label} style={{ background:"var(--surface2)", borderRadius:8, padding:"8px 10px", textAlign:"center" }}>
-                            <div style={{ fontSize:16 }}>{icon}</div>
+                            <div style={{ display:"flex", alignItems:"center", justifyContent:"center" }}>{icon}</div>
                             <div style={{ fontSize:13, fontWeight:600, color:"var(--text)" }}>{val}</div>
                             <div style={{ fontSize:10, color:"var(--text3)" }}>{label}</div>
                           </div>

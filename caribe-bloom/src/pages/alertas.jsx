@@ -54,7 +54,7 @@ export default function Alertas() {
               <div style={{ fontSize:13, color:"var(--text2)", marginBottom:6, lineHeight:1.5 }}>{a.descripcion}</div>
               <div style={{ fontSize:12, color:"var(--g300)" }}>→ {a.recomendacion_agronomica}</div>
               <div style={{ fontSize:10, color:"var(--text3)", marginTop:5 }}>
-                {new Date(a.fecha_generacion).toLocaleString("es-CO")}
+                {new Date(a.fecha).toLocaleString("es-CO")}
               </div>
             </div>
           </div>

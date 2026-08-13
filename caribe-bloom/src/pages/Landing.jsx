@@ -127,17 +127,25 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
     if (formStatus === "error") setFormStatus("idle");
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (!form.nombre.trim() || !form.correo.trim() || !form.mensaje.trim()) {
       setFormStatus("error");
       return;
     }
     setFormStatus("sending");
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/contacto", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) throw new Error();
       setFormStatus("sent");
       setForm({ nombre: "", correo: "", mensaje: "" });
-    }, 900);
+    } catch {
+      setFormStatus("error");
+    }
   };
 
   return (
@@ -392,7 +400,7 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
                 <textarea placeholder="¿En qué podemos ayudarte?" rows={4} value={form.mensaje} onChange={handleFormChange("mensaje")} style={{ width: "100%", padding: "11px 14px", borderRadius: 8, border: "1px solid #d8e8dc", fontSize: 13, outline: "none", boxSizing: "border-box", background: "#f4f6f5", resize: "vertical" }} />
               </div>
               {formStatus === "error" && (
-                <div style={{ fontSize: 12, color: "#c62828", marginBottom: 14 }}>Completa todos los campos antes de enviar.</div>
+                <div style={{ fontSize: 12, color: "#c62828", marginBottom: 14 }}>Completa todos los campos correctamente, o intenta de nuevo en unos segundos.</div>
               )}
               <button type="submit" disabled={formStatus === "sending"} style={{ width: "100%", padding: "13px", marginTop: 12, background: formStatus === "sending" ? "#6a8a76" : "#2f9e5c", border: "none", borderRadius: 8, color: "#fff", fontSize: 14, fontWeight: 700, cursor: formStatus === "sending" ? "not-allowed" : "pointer" }}>
                 {formStatus === "sending" ? "Enviando..." : "Enviar mensaje →"}
