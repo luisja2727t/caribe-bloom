@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import heroImg from "../assets/hero.png";
 
 const IconLeaf = ({ size = 20, color = "#fff" }) => (
@@ -73,11 +73,8 @@ const NAV_ITEMS = [{ label: "Inicio", id: "inicio" }, { label: "Funciones", id: 
 
 export default function Landing({ onLoginClick, onRegistroClick }) {
   const [activeSection, setActiveSection] = useState("inicio");
-  const [counted, setCounted] = useState(false);
-  const [countVals, setCountVals] = useState({ fincas: 0, precision: 0 });
   const [form, setForm] = useState({ nombre: "", correo: "", mensaje: "" });
   const [formStatus, setFormStatus] = useState("idle"); // idle | sending | sent | error
-  const statsRef = useRef(null);
 
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -98,29 +95,6 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    const el = statsRef.current;
-    if (!el) return;
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !counted) {
-          setCounted(true);
-          const duration = 1100;
-          const start = performance.now();
-          const tick = (now) => {
-            const progress = Math.min((now - start) / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            setCountVals({ fincas: Math.round(150 * eased), precision: Math.round(98 * eased) });
-            if (progress < 1) requestAnimationFrame(tick);
-          };
-          requestAnimationFrame(tick);
-        }
-      });
-    }, { threshold: 0.4 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [counted]);
 
   const handleFormChange = (field) => (e) => {
     setForm(f => ({ ...f, [field]: e.target.value }));
@@ -201,13 +175,13 @@ export default function Landing({ onLoginClick, onRegistroClick }) {
             <button onClick={onRegistroClick} style={{ padding: "14px 32px", background: "#2f9e5c", border: "none", borderRadius: 10, color: "#fff", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 4px 20px rgba(47,158,92,0.45)" }}>Comenzar ahora →</button>
             <button onClick={() => scrollTo("funciones")} style={{ padding: "14px 28px", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 10, color: "rgba(255,255,255,0.85)", fontSize: 14, fontWeight: 500, cursor: "pointer" }}>Ver demo</button>
           </div>
-          <div ref={statsRef} className="landing-stats" style={{ display: "flex", gap: 32, paddingTop: 28, borderTop: "1px solid rgba(255,255,255,0.12)" }}>
+          <div className="landing-stats" style={{ display: "flex", gap: 32, paddingTop: 28, borderTop: "1px solid rgba(255,255,255,0.12)" }}>
             <div>
-              <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.5px" }}>{countVals.fincas}+</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.5px" }}>150+</div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 3 }}>Fincas activas</div>
             </div>
             <div>
-              <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.5px" }}>{countVals.precision}%</div>
+              <div style={{ fontSize: 26, fontWeight: 800, color: "#fff", letterSpacing: "-0.5px" }}>98%</div>
               <div style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", marginTop: 3 }}>Precisión IA</div>
             </div>
             <div>
