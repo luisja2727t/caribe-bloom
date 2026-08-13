@@ -40,7 +40,7 @@ function MapaReal({ fincas }) {
               <Polygon
                 key={f.id_finca}
                 paths={coords}
-                options={{ fillColor:"#3db866", fillOpacity:0.3, strokeColor:"#3db866", strokeWeight:2 }}
+                options={{ fillColor:"#2f9e5c", fillOpacity:0.3, strokeColor:"#2f9e5c", strokeWeight:2 }}
               />
             );
           })}
@@ -51,7 +51,7 @@ function MapaReal({ fincas }) {
         </div>
       )}
       <div className="map-footer">
-        {[["#3db866","Óptimo"],["#e8971f","Estrés Hídrico"],["#dc3d3d","Enfermedad"]].map(([c,l]) => (
+        {[["#2f9e5c","Óptimo"],["#e8971f","Estrés Hídrico"],["#dc3d3d","Enfermedad"]].map(([c,l]) => (
           <div key={l} className="map-li">
             <div className="map-dot" style={{ background:c }} />{l}
           </div>

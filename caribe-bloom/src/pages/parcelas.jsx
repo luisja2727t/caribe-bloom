@@ -248,9 +248,9 @@ export default function Parcelas() {
                       key={f.id_finca}
                       paths={coords}
                       options={{
-                        fillColor: "#3db866",
+                        fillColor: "#2f9e5c",
                         fillOpacity: 0.3,
-                        strokeColor: "#3db866",
+                        strokeColor: "#2f9e5c",
                         strokeWeight: 2,
                       }}
                     />
@@ -276,7 +276,7 @@ export default function Parcelas() {
             )}
 
             <div style={{ padding:"10px 18px", display:"flex", gap:16 }}>
-              {[["#3db866","Fincas guardadas"],["#f59e0b","Dibujando"]].map(([c,l])=>(
+              {[["#2f9e5c","Fincas guardadas"],["#f59e0b","Dibujando"]].map(([c,l])=>(
                 <div key={l} style={{ display:"flex", alignItems:"center", gap:5, fontSize:11, color:"var(--text3)" }}>
                   <div style={{ width:8, height:8, borderRadius:"50%", background:c }} />{l}
                 </div>
