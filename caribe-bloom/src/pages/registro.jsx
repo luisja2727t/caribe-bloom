@@ -45,20 +45,20 @@ export default function Registro({ onRegistro, onLoginClick }) {
   const inputStyle = {
     width: "100%", padding: "11px 14px", borderRadius: 9,
     border: "1.5px solid #d8e8dc", fontSize: 13, outline: "none",
-    boxSizing: "border-box", background: "#f8fbf9", color: "#0a3d1f",
+    boxSizing: "border-box", background: "#f8fbf9", color: "#071f14",
     transition: "border-color 0.2s",
     fontFamily: "'Segoe UI', system-ui, sans-serif",
   };
 
   const labelStyle = {
-    fontSize: 12, fontWeight: 600, color: "#0a3d1f",
+    fontSize: 12, fontWeight: 600, color: "#071f14",
     display: "block", marginBottom: 6,
   };
 
   return (
     <div style={{
       minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      background: "linear-gradient(135deg, #0a3d1f 0%, #1e7a40 50%, #0f2d1a 100%)",
+      background: "linear-gradient(135deg, #071f14 0%, #12492b 50%, #081712 100%)",
       position: "relative", overflow: "hidden",
       fontFamily: "'Segoe UI', system-ui, sans-serif",
     }}>
@@ -72,9 +72,9 @@ export default function Registro({ onRegistro, onLoginClick }) {
       }}>← Volver</button>
 
       {/* Círculos decorativos */}
-      <div style={{ position: "absolute", right: "-60px", top: "-60px", width: 380, height: 380, borderRadius: "50%", border: "1px solid rgba(61,184,102,0.15)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", left: "-40px", bottom: "-40px", width: 260, height: 260, borderRadius: "50%", border: "1px solid rgba(61,184,102,0.1)", pointerEvents: "none" }} />
-      <div style={{ position: "absolute", right: "15%", bottom: "10%", width: 160, height: 160, borderRadius: "50%", border: "1px solid rgba(61,184,102,0.08)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", right: "-60px", top: "-60px", width: 380, height: 380, borderRadius: "50%", border: "1px solid rgba(47,158,92,0.15)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", left: "-40px", bottom: "-40px", width: 260, height: 260, borderRadius: "50%", border: "1px solid rgba(47,158,92,0.1)", pointerEvents: "none" }} />
+      <div style={{ position: "absolute", right: "15%", bottom: "10%", width: 160, height: 160, borderRadius: "50%", border: "1px solid rgba(47,158,92,0.08)", pointerEvents: "none" }} />
 
       {/* Card */}
       <div style={{
@@ -88,15 +88,15 @@ export default function Registro({ onRegistro, onLoginClick }) {
         <div style={{ textAlign: "center", marginBottom: 28 }}>
           <div style={{
             width: 56, height: 56, margin: "0 auto 14px",
-            background: "linear-gradient(135deg,#3db866,#1e7a40)",
+            background: "linear-gradient(135deg,#2f9e5c,#12492b)",
             borderRadius: 14, display: "flex", alignItems: "center",
             justifyContent: "center", fontSize: 28,
-            boxShadow: "0 4px 16px rgba(61,184,102,0.35)",
+            boxShadow: "0 4px 16px rgba(47,158,92,0.35)",
           }}>🌿</div>
-          <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.5px", color: "#0a3d1f" }}>
+          <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.5px", color: "#071f14" }}>
             Crear cuenta
           </div>
-          <div style={{ fontSize: 12, color: "#7a9e87", marginTop: 4 }}>
+          <div style={{ fontSize: 12, color: "#6a8a76", marginTop: 4 }}>
             Únete a Caribe Bloom · Monitoreo Agrícola
           </div>
         </div>
@@ -104,10 +104,10 @@ export default function Registro({ onRegistro, onLoginClick }) {
         {/* Badge rol */}
         <div style={{
           display: "flex", alignItems: "center", gap: 8,
-          background: "rgba(61,184,102,0.08)", border: "1px solid rgba(61,184,102,0.25)",
+          background: "rgba(47,158,92,0.08)", border: "1px solid rgba(47,158,92,0.25)",
           borderRadius: 8, padding: "9px 14px", marginBottom: 22,
         }}>
-          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#3db866", flexShrink: 0 }} />
+          <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#2f9e5c", flexShrink: 0 }} />
           <span style={{ fontSize: 12, color: "#2d7a44", fontWeight: 600 }}>
             Rol asignado: <strong>Agricultor</strong>
           </span>
@@ -122,7 +122,7 @@ export default function Registro({ onRegistro, onLoginClick }) {
               type="text" placeholder="Ej. Carlos Martínez"
               value={nombre} onChange={e => setNombre(e.target.value)}
               style={inputStyle}
-              onFocus={e => e.target.style.borderColor = "#3db866"}
+              onFocus={e => e.target.style.borderColor = "#2f9e5c"}
               onBlur={e => e.target.style.borderColor = "#d8e8dc"}
             />
           </div>
@@ -134,7 +134,7 @@ export default function Registro({ onRegistro, onLoginClick }) {
               type="email" placeholder="usuario@finca.com"
               value={correo} onChange={e => setCorreo(e.target.value)}
               style={inputStyle}
-              onFocus={e => e.target.style.borderColor = "#3db866"}
+              onFocus={e => e.target.style.borderColor = "#2f9e5c"}
               onBlur={e => e.target.style.borderColor = "#d8e8dc"}
             />
           </div>
@@ -146,7 +146,7 @@ export default function Registro({ onRegistro, onLoginClick }) {
               type="tel" placeholder="+57 300 000 0000"
               value={telefono} onChange={e => setTelefono(e.target.value)}
               style={inputStyle}
-              onFocus={e => e.target.style.borderColor = "#3db866"}
+              onFocus={e => e.target.style.borderColor = "#2f9e5c"}
               onBlur={e => e.target.style.borderColor = "#d8e8dc"}
             />
           </div>
@@ -158,7 +158,7 @@ export default function Registro({ onRegistro, onLoginClick }) {
               type="password" placeholder="Mínimo 6 caracteres"
               value={password} onChange={e => setPassword(e.target.value)}
               style={inputStyle}
-              onFocus={e => e.target.style.borderColor = "#3db866"}
+              onFocus={e => e.target.style.borderColor = "#2f9e5c"}
               onBlur={e => e.target.style.borderColor = "#d8e8dc"}
             />
           </div>
@@ -173,7 +173,7 @@ export default function Registro({ onRegistro, onLoginClick }) {
                 ...inputStyle,
                 borderColor: confirm && confirm !== password ? "#e53935" : "#d8e8dc",
               }}
-              onFocus={e => e.target.style.borderColor = confirm !== password ? "#e53935" : "#3db866"}
+              onFocus={e => e.target.style.borderColor = confirm !== password ? "#e53935" : "#2f9e5c"}
               onBlur={e => e.target.style.borderColor = confirm && confirm !== password ? "#e53935" : "#d8e8dc"}
             />
             {confirm && confirm !== password && (
@@ -195,10 +195,10 @@ export default function Registro({ onRegistro, onLoginClick }) {
             type="submit"
             disabled={loading}
             style={{
-              width: "100%", padding: "13px", background: loading ? "#7a9e87" : "#3db866",
+              width: "100%", padding: "13px", background: loading ? "#6a8a76" : "#2f9e5c",
               border: "none", borderRadius: 10, color: "#fff",
               fontSize: 14, fontWeight: 700, cursor: loading ? "not-allowed" : "pointer",
-              boxShadow: loading ? "none" : "0 4px 14px rgba(45,158,79,0.35)",
+              boxShadow: loading ? "none" : "0 4px 14px rgba(47,158,92,0.35)",
               transition: "all 0.2s",
             }}
           >
@@ -207,11 +207,11 @@ export default function Registro({ onRegistro, onLoginClick }) {
         </form>
 
         {/* Link a login */}
-        <div style={{ textAlign: "center", marginTop: 20, fontSize: 13, color: "#7a9e87" }}>
+        <div style={{ textAlign: "center", marginTop: 20, fontSize: 13, color: "#6a8a76" }}>
           ¿Ya tienes cuenta?{" "}
           <span
             onClick={onLoginClick}
-            style={{ color: "#2d9e4f", fontWeight: 700, cursor: "pointer" }}
+            style={{ color: "#248a53", fontWeight: 700, cursor: "pointer" }}
           >
             Iniciar sesión
           </span>

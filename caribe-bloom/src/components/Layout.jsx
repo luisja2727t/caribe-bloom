@@ -14,10 +14,10 @@ const navStyle = ({ isActive }) => ({
   display: "flex", alignItems: "center", gap: 10,
   padding: "10px 12px", borderRadius: 8, marginBottom: 3,
   textDecoration: "none", fontSize: 13, transition: "all 0.15s",
-  background: isActive ? "rgba(61,184,102,0.2)" : "transparent",
-  color: isActive ? "#5fd080" : "rgba(255,255,255,0.55)",
+  background: isActive ? "rgba(47,158,92,0.2)" : "transparent",
+  color: isActive ? "#6bcf8e" : "rgba(255,255,255,0.55)",
   fontWeight: isActive ? 600 : 400,
-  borderLeft: isActive ? "3px solid #3db866" : "3px solid transparent",
+  borderLeft: isActive ? "3px solid #2f9e5c" : "3px solid transparent",
 });
 
 export default function Layout({ user, onLogout }) {
@@ -28,7 +28,7 @@ export default function Layout({ user, onLogout }) {
     <div className="app">
       <div className={`sidebar-overlay${menuOpen ? " open" : ""}`} onClick={() => setMenuOpen(false)} />
       <aside className={`sidebar${menuOpen ? " open" : ""}`} style={{
-        width: 220, background: "#0f2d1a",
+        width: 220, background: "#081712",
         borderRight: "none", display: "flex",
         flexDirection: "column", flexShrink: 0
       }}>
@@ -36,7 +36,7 @@ export default function Layout({ user, onLogout }) {
         <div style={{ padding: "22px 18px 18px", display: "flex", gap: 10, alignItems: "center" }}>
           <div style={{
             width: 38, height: 38,
-            background: "linear-gradient(135deg,#3db866,#1e7a40)",
+            background: "linear-gradient(135deg,#2f9e5c,#12492b)",
             borderRadius: 10, display: "flex", alignItems: "center",
             justifyContent: "center", fontSize: 20
           }}>🌿</div>
@@ -68,7 +68,7 @@ export default function Layout({ user, onLogout }) {
         }}>
           <div style={{
             width: 34, height: 34, borderRadius: "50%",
-            background: "linear-gradient(135deg,#3db866,#1e7a40)",
+            background: "linear-gradient(135deg,#2f9e5c,#12492b)",
             display: "flex", alignItems: "center", justifyContent: "center",
             fontSize: 12, fontWeight: 700, color: "#fff", flexShrink: 0
           }}>
@@ -110,7 +110,7 @@ export default function Layout({ user, onLogout }) {
               🔔
             </div>
             <div style={{
-              width: 34, height: 34, background: "linear-gradient(135deg,#3db866,#1e7a40)",
+              width: 34, height: 34, background: "linear-gradient(135deg,#2f9e5c,#12492b)",
               borderRadius: "50%", display: "flex", alignItems: "center",
               justifyContent: "center", fontSize: 12, fontWeight: 700,
               color: "#fff", cursor: "pointer"

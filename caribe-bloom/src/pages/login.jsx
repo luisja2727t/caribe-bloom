@@ -26,7 +26,7 @@ export default function Login({ onLogin, onBack, onRegistroClick }) {
   return (
     <div style={{
       minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
-      background: "linear-gradient(135deg, #0a3d1f 0%, #1e7a40 50%, #0f2d1a 100%)",
+      background: "linear-gradient(135deg, #071f14 0%, #12492b 50%, #081712 100%)",
       position: "relative", overflow: "hidden",
     }}>
 
@@ -44,12 +44,12 @@ export default function Login({ onLogin, onBack, onRegistroClick }) {
       <div style={{
         position: "absolute", right: "-60px", top: "-60px",
         width: 380, height: 380, borderRadius: "50%",
-        border: "1px solid rgba(61,184,102,0.15)", pointerEvents: "none",
+        border: "1px solid rgba(47,158,92,0.15)", pointerEvents: "none",
       }} />
       <div style={{
         position: "absolute", left: "-40px", bottom: "-40px",
         width: 260, height: 260, borderRadius: "50%",
-        border: "1px solid rgba(61,184,102,0.1)", pointerEvents: "none",
+        border: "1px solid rgba(47,158,92,0.1)", pointerEvents: "none",
       }} />
 
       <div style={{
@@ -61,15 +61,15 @@ export default function Login({ onLogin, onBack, onRegistroClick }) {
         <div style={{ textAlign: "center", marginBottom: 30 }}>
           <div style={{
             width: 56, height: 56, margin: "0 auto 14px",
-            background: "linear-gradient(135deg,#3db866,#1e7a40)",
+            background: "linear-gradient(135deg,#2f9e5c,#12492b)",
             borderRadius: 14, display: "flex", alignItems: "center",
             justifyContent: "center", fontSize: 28,
-            boxShadow: "0 4px 16px rgba(61,184,102,0.35)",
+            boxShadow: "0 4px 16px rgba(47,158,92,0.35)",
           }}>🌿</div>
-          <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.5px", color: "#0a3d1f" }}>
+          <div style={{ fontSize: 22, fontWeight: 800, letterSpacing: "-0.5px", color: "#071f14" }}>
             Caribe Bloom
           </div>
-          <div style={{ fontSize: 11, color: "#7a9e87", marginTop: 3 }}>
+          <div style={{ fontSize: 11, color: "#6a8a76", marginTop: 3 }}>
             Plataforma de Monitoreo Agrícola
           </div>
         </div>
@@ -87,7 +87,7 @@ export default function Login({ onLogin, onBack, onRegistroClick }) {
           </div>
 
           <div style={{ textAlign: "right", marginTop: -8, marginBottom: 16 }}>
-            <span style={{ fontSize: 11, color: "#2d9e4f", cursor: "pointer" }}>
+            <span style={{ fontSize: 11, color: "#248a53", cursor: "pointer" }}>
               ¿Olvidaste tu contraseña?
             </span>
           </div>
@@ -95,17 +95,17 @@ export default function Login({ onLogin, onBack, onRegistroClick }) {
           {error && <div className="err" style={{ marginBottom: 14 }}>{error}</div>}
 
           <button type="submit" className="btn btn-primary"
-            style={{ width: "100%", padding: 12, fontSize: 14, boxShadow: "0 4px 14px rgba(45,158,79,0.35)" }}>
+            style={{ width: "100%", padding: 12, fontSize: 14, boxShadow: "0 4px 14px rgba(47,158,92,0.35)" }}>
             Iniciar Sesión
           </button>
         </form>
 
         {/* Enlace a registro */}
-        <div style={{ textAlign: "center", marginTop: 18, fontSize: 13, color: "#7a9e87" }}>
+        <div style={{ textAlign: "center", marginTop: 18, fontSize: 13, color: "#6a8a76" }}>
           ¿No tienes cuenta?{" "}
           <span
             onClick={onRegistroClick}
-            style={{ color: "#2d9e4f", fontWeight: 700, cursor: "pointer" }}
+            style={{ color: "#248a53", fontWeight: 700, cursor: "pointer" }}
           >
             Regístrate aquí
           </span>
